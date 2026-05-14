@@ -8,6 +8,7 @@ import { RolesModule } from './roles/roles.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersEntity } from './users/users.entity/users.entity';
 import { RolesEntity } from './roles/roles.entity/roles.entity';
+import { AppointmentsModule } from './appointments/appointments.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { RolesEntity } from './roles/roles.entity/roles.entity';
     UsersModule,
     AuthModule,
     RolesModule,
+    AppointmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

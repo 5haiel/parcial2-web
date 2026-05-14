@@ -1,9 +1,11 @@
+import { AppointmentsEntity } from 'src/appointments/appointments.entity/appointments.entity';
 import { RolesEntity } from 'src/roles/roles.entity/roles.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -37,4 +39,10 @@ export class UsersEntity {
     inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' },
   })
   roles!: RolesEntity[];
+
+  @OneToMany(() => AppointmentsEntity, (appointments) => appointments.id_user)
+  appointments!: AppointmentsEntity[];
+
+  @OneToMany(() => AppointmentsEntity, (appointments) => appointments.id_doctor)
+  doctorAppointments!: AppointmentsEntity[];
 }
