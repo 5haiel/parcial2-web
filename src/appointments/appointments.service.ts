@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppointmentsEntity } from './appointments.entity/appointments.entity';
 import { Repository } from 'typeorm';
@@ -24,7 +24,7 @@ export class AppointmentsService {
     });
 
     if (!user || !doctor) {
-      throw new Error('Usuario o doctor no encontrado');
+      throw new NotFoundException('Usuario o doctor no encontrado');
     }
 
     const appointment = this.appointmentsRepository.create({
@@ -55,7 +55,7 @@ export class AppointmentsService {
       where: { id },
     });
     if (!appointment) {
-      throw new Error('Cita no encontrada');
+      throw new NotFoundException('No se encontró la cita con el id dado');
     }
 
     const user = await this.usersRepository.findOne({
@@ -66,7 +66,7 @@ export class AppointmentsService {
     });
 
     if (!user || !doctor) {
-      throw new Error('Usuario o doctor no encontrado');
+      throw new NotFoundException('Usuario o doctor no encontrado');
     }
 
     appointment.description = data.description;
@@ -82,7 +82,7 @@ export class AppointmentsService {
       where: { id },
     });
     if (!appointment) {
-      throw new Error('Cita no encontrada');
+      throw new NotFoundException('No se encontró la cita con el id dado');
     }
 
     appointment.status = 'CANCELLED';

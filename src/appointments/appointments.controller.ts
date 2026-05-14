@@ -8,10 +8,13 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator/roles.decorator';
 import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from './dto/createAppointment.dto';
+import { RolesGuard } from 'src/auth/guards/roles.guard/roles.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard/jwt-auth.guard';
 
 @Controller('appointments')
 export class AppointmentsController {
@@ -19,6 +22,7 @@ export class AppointmentsController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'doctor', 'paciente')
   async findAll() {
     const appointments = await this.appointmentsService.findAll();
@@ -30,6 +34,8 @@ export class AppointmentsController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'doctor', 'paciente')
   async findById(@Param('id') id: string) {
     const appointment = await this.appointmentsService.findById(id);
     if (!appointment) {
@@ -40,6 +46,7 @@ export class AppointmentsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('paciente')
   async create(@Body() createAppointmentDto: CreateAppointmentDto) {
     return {
@@ -50,6 +57,7 @@ export class AppointmentsController {
 
   @Put(':id/update')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('doctor')
   async update(
     @Param('id') id: string,
@@ -66,6 +74,7 @@ export class AppointmentsController {
 
   @Put(':id/cancel')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('paciente')
   async cancel(@Param('id') id: string) {
     return {
