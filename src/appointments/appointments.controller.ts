@@ -29,7 +29,7 @@ export class AppointmentsController {
     if (appointments.length === 0) {
       throw new NotFoundException('No se encontraron citas');
     }
-    return appointments;
+    return { appointments, message: 'Citas encontradas con éxito' };
   }
 
   @Get(':id')
